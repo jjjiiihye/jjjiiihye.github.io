@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진법 변환 및 아스키 코드 변환기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .red-text{
+            color:red;
+        }
+        .blue-text{
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <h1 class="red-text">진법 변환기</h1>
+    
+    <!-- 진법 변환 입력 부분 -->
+    <label for="number">변환할 숫자: </label>
+    <input type="text" id="number" placeholder="숫자 입력">
+    <br>
+
+    <label for="from-base">현재 진법: </label>
+    <select id="from-base">
+        <option value="2">2진법</option>
+        <option value="8">8진법</option>
+        <option value="10">10진법</option>
+        <option value="16">16진법</option>
+    </select>
+    <br>
+
+    <label for="to-base">변환할 진법: </label>
+    <select id="to-base">
+        <option value="2">2진법</option>
+        <option value="8">8진법</option>
+        <option value="10">10진법</option>
+        <option value="16">16진법</option>
+    </select>
+    <br>
+
+    <button onclick="convertNumber()">변환하기</button>
+
+    <div id="conversion-result" class="result"></div>
+
+    
+    <h2 class="blue-text">아스키 코드 변환기</h2>
+    
+    <!-- 아스키 코드 변환 입력 부분 -->
+    <label for="char-input">문자 입력: </label>
+    <input type="text" id="char-input" maxlength="1" placeholder="문자 입력">
+    <button onclick="convertAscii()">아스키 코드로 변환</button>
+
+    <div id="ascii-result" class="result"></div>
+</div>
+
+<script>
+    // 진법 변환 함수
+    function convertNumber() {
+        const number = document.getElementById("number").value;
+        const fromBase = parseInt(document.getElementById("from-base").value);
+        const toBase = parseInt(document.getElementById("to-base").value);
+
+        // 유효성 검사
+        if (!number) {
+            document.getElementById("conversion-result").textContent = "변환할 숫자를 입력해주세요.";
+            return;
+        }
+
+        try {
+            // 입력된 숫자를 'fromBase' 진법에서 10진수로 변환
+            const decimalValue = parseInt(number, fromBase);
+            
+            // 'toBase' 진법으로 변환 후 결과 출력
+            const result = decimalValue.toString(toBase).toUpperCase();
+            document.getElementById("conversion-result").textContent = `${number} (${fromBase}진법) → ${result} (${toBase}진법)`;
+        } catch (error) {
+            document.getElementById("conversion-result").textContent = "잘못된 숫자 형식입니다.";
+        }
+    }
+
+    // 아스키 코드 변환 함수
+    function convertAscii() {
+        const charInput = document.getElementById("char-input").value;
+
+        if (charInput.length !== 1) {
+            document.getElementById("ascii-result").textContent = "하나의 문자만 입력해주세요.";
+            return;
+        }
+
+        // 문자에 해당하는 아스키 코드 값 변환
+        const asciiCode = charInput.charCodeAt(0);
+        document.getElementById("ascii-result").textContent = `"${charInput}"의 아스키 코드 값은 ${asciiCode}입니다.`;
+    }
+</script>
+
+</body>
+</html>
